@@ -17,9 +17,15 @@
 			<h2>ENCRYPT</h2>
 			<div id="encrypt">
 				<textarea id="input_text" type="text" value="WRITE YR MESSAGE HERE"> </textarea><br>
-				<button onclick="convert();">Convert!</button><br>
-				<canvas id="canvii" width="100", height="100">
-Random Canvas</canvas><br>
+				<button onclick="encode();">ENKRYPT</button><br>
+				<canvas id="canvii" width="630", height="450" ></canvas>
+				<img id="canvasImg" />
+				<script>
+					var can = document.getElementsByTagName("canvii"); 
+				    var dataURL = can[0].toDataURL("image/png");
+					document.getElementById('canvasImg').src = dataURL;
+				</script>
+				<br>
 				<textarea id="bin"></textarea>
 			</div>
 

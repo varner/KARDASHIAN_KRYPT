@@ -31,7 +31,10 @@
 			<div id="decrypt">
 				<h3>1. UPLOAD IMAGE</h3>
 				<p>ONLY PNGS SRY LMFAO</p>
-				<input type="file" name="img" accept=".png"><br>
+				<input type="file" name="img" accept=".png" onchange="gotImg(this);"><br>
+				<br>
+				<img id="decodeImg">
+				<br>
 				<button onclick="decode();">DEKRYPT</button>
 				<br>
 				<br>

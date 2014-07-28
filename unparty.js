@@ -1,12 +1,20 @@
 function decode() {
-    var element = document.getElementById("canvii"),
-    c = element.getContext("2d"),
-    width  = element.width,
-    height = element.height,
-    imageData = c.getImageData(0, 0, width, height);
-    alert("fuck");
+    //make canvas
+    var can         = document.createElement("canvas"),
+        img         = document.getElementById("decodeImg");
+    can.width = img.width;
+    can.height = img.height;
 
-    var nullFinder = 0,
+    var c = can.getContext("2d");
+    c.drawImage(img, 0, 0);
+    imageData = c.getImageData(0, 0, can.width, can.height);
+
+    var msg = algo(imageData);
+    alert(msg);
+}
+
+function algo(imageData) {
+        var nullFinder = 0,
         counter = 0,
         cCounter = 0;
         character = "",
@@ -32,5 +40,18 @@ function decode() {
         }
         counter++;
     }
-    alert(msg);
+    return msg; 
+}
+
+function gotImg(input) {
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+        reader.onload = function(e) {
+            document.getElementById('decodeImg').src = e.target.result;
+        }
+
+        reader.readAsDataURL(input.files[0]);
+
+    }
+   
 }

@@ -6,7 +6,8 @@
 // hmu: FFFFF.AT | SLITSCANNED.COM | FFFERAL.NET | @MLVARNER
 
 // ~*~* ENCODE *~*~
-var prepped;
+
+var files = 1;
 
 function setPixel(imageData, x, y, r, g, b, a) {
     index = (x + y * imageData.width) * 4;
@@ -16,14 +17,56 @@ function setPixel(imageData, x, y, r, g, b, a) {
     imageData.data[index+3] = a;
 }
 
+function codify(imageData, phrase) {
+    var charIndex = 0,
+        encodedData = "",
+        bite;
+    for (dataIndex = 0; dataIndex < imageData.data.length; dataIndex++) {
+        //// no salting, very simple.
+        if ((dataIndex % 4 != 3) && (charIndex < phrase.length)) {
+            bite = parseInt(phrase.substring(charIndex,charIndex+1), 10);
+            chan = imageData.data[dataIndex];
+            if (bite == 1 && (chan % 2 == 0)) {
+                imageData.data[dataIndex] += 1;
+            } else if (bite == 0 && chan % 2 == 1) {
+                imageData.data[dataIndex] -= 1;
+            }
+            charIndex++;
+        }
+        // add the data!
+        encodedData += String.fromCharCode(imageData.data[dataIndex]);
+    }
+    return encodedData;
+}
+
 function encode() {
-    var msg = document.getElementById("input_text").value;
-    toImage(msg);
+    var msg     = document.getElementById("input_text").value,
+        encoded = toImage(msg),
+        rawUrl  = generateRaw(),
+        dataUrl = 'data:image/png;base64,',
+        rawImg  = document.createElement("img");
+    rawImg.src = rawUrl;
+
+    var can         = document.createElement("canvas");
+    can.width       = rawImg.width;
+    can.height      = rawImg.height;
+
+    //push img data
+    var c = can.getContext("2d");
+    c.drawImage(rawImg, 0, 0);
+    imageData = c.getImageData(0, 0, can.width, can.height);
+    c.putImageData(imageData, 0, 0);
+    //make png
+    var encodedData = codify(imageData, encoded);
+    pngFile = generatePng(rawImg.width, rawImg.height, encodedData);
+    base64png = btoa(pngFile);//Base64.encode(pngFile);
+    dataUrl += base64png;
+    document.getElementById('canvasImg').src = dataUrl;
 }
 
 function toImage(msg) {
     //convert to binary
-    prepped = "";
+    var prepped = "";
 	var padding = "00000000";
 	var temp;
 	for (i=0; i < msg.length; i++) {
@@ -31,11 +74,14 @@ function toImage(msg) {
  		prepped += padding.substring(0, padding.length - temp.length) + temp;
     }
     prepped += padding; //null character
+    return prepped;
+}
 
-    //add our img to canvas
-    im = new Image;
-	im.onload = imageLoaded;
-	im.src = "kim.png"; 
+function generateRaw() {
+    var url     = "kim/",
+        num     = Math.floor(Math.random() * files);
+        url     += num.toString() + ".png";
+    return url;
 }
 
 function imageLoaded(ev) {

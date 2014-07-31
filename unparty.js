@@ -5,12 +5,13 @@ function decode() {
     can.width = img.width;
     can.height = img.height;
 
+    //push img data
     var c = can.getContext("2d");
     c.drawImage(img, 0, 0);
     imageData = c.getImageData(0, 0, can.width, can.height);
 
     var msg = algo(imageData);
-    alert(msg);
+    document.getElementById("output_text").value = msg;
 }
 
 function algo(imageData) {
@@ -49,9 +50,7 @@ function gotImg(input) {
         reader.onload = function(e) {
             document.getElementById('decodeImg').src = e.target.result;
         }
-
         reader.readAsDataURL(input.files[0]);
-
     }
    
 }

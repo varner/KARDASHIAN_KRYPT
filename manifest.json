@@ -2,17 +2,14 @@
   "manifest_version": 2,
   "name": "Kardashian Krypt",
   "version": "1.0",
-  "default_locale": "en",
   "description": "HIDE MESSAGES IN PICTURES OF THE KARDASHIANS",
-
-  "browser_action": {
-    "default_icon": {                    
-      "19": "images/icon19.png",           
-      "38": "images/icon38.png"            
-    },
-    "default_title": "KARDASHIAN KRYPT",      
-    "default_popup": "popup.html"
+  "permissions": [
+    "tabs", "http://*/*", "https://*/*", "activeTab"
+  ],
+  "background": {
+    "scripts": ["kardashiankrypt.js", "generatepng.js", "webtoolkit.base64.js"],
+    "persistent": false
   },
-
-  //etc bullshit here
+  "browser_action": {
+  }
 }

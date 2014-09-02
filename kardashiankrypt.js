@@ -7,7 +7,7 @@
 
 // ~*~* ENCODE *~*~
 
-var files = 1;
+var files = 8;
 
 function setPixel(imageData, x, y, r, g, b, a) {
     index = (x + y * imageData.width) * 4;
@@ -40,28 +40,29 @@ function codify(imageData, phrase) {
 }
 
 function encode() {
-    var msg     = document.getElementById("input_text").value,
+    var msg     = escape(document.getElementById("input_text").value),//.replace(/\n/g, " "),
         encoded = toImage(msg),
         rawUrl  = generateRaw(),
         dataUrl = 'data:image/png;base64,',
         rawImg  = document.createElement("img");
     rawImg.src = rawUrl;
+    rawImg.onload = function() {
+        var can         = document.createElement("canvas");
+        can.width       = rawImg.width;
+        can.height      = rawImg.height;
 
-    var can         = document.createElement("canvas");
-    can.width       = rawImg.width;
-    can.height      = rawImg.height;
-
-    //push img data
-    var c = can.getContext("2d");
-    c.drawImage(rawImg, 0, 0);
-    imageData = c.getImageData(0, 0, can.width, can.height);
-    c.putImageData(imageData, 0, 0);
-    //make png
-    var encodedData = codify(imageData, encoded);
-    pngFile = generatePng(rawImg.width, rawImg.height, encodedData);
-    base64png = btoa(pngFile);//Base64.encode(pngFile);
-    dataUrl += base64png;
-    document.getElementById('canvasImg').src = dataUrl;
+        //push img data
+        var c = can.getContext("2d");
+        c.drawImage(rawImg, 0, 0);
+        imageData = c.getImageData(0, 0, can.width, can.height);
+        c.putImageData(imageData, 0, 0);
+        //make png
+        var encodedData = codify(imageData, encoded);
+        pngFile = generatePng(rawImg.width, rawImg.height, encodedData);
+        base64png = btoa(pngFile);//Base64.encode(pngFile);
+        dataUrl += base64png;
+        document.getElementById('canvasImg').src = dataUrl;
+    }
 }
 
 function toImage(msg) {
@@ -72,6 +73,7 @@ function toImage(msg) {
 	for (i=0; i < msg.length; i++) {
 		temp = msg[i].charCodeAt(0).toString(2);
  		prepped += padding.substring(0, padding.length - temp.length) + temp;
+
     }
     prepped += padding; //null character
     return prepped;
@@ -168,10 +170,11 @@ function algo(imageData) {
         }
         counter++;
     }
-    return msg; 
+    return unescape(msg); 
 }
 
-function gotImg(input) {
+function gotImg() {
+    var input = document.getElementById("uploadr");
     if (input.files && input.files[0]) {
         var reader = new FileReader();
         reader.onload = function(e) {
@@ -181,3 +184,20 @@ function gotImg(input) {
     }  
 }
 
+
+window.onload = function() {
+    //var ec = window.getElementById("enkrypt");
+    //ec.onClicked(function() { encode();});
+    var eh = document.getElementById("enkrypt");
+    eh.addEventListener("click", encode);
+
+    var de = document.getElementById("dekrypt");
+    de.addEventListener("click", decode);
+
+    var me = document.getElementById("uploadr");
+    me.addEventListener("change", gotImg);
+}
+
+chrome.browserAction.onClicked.addListener(function(tab) {
+    chrome.tabs.create({url: chrome.extension.getURL("page.html"), active: true});
+});

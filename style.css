@@ -1,0 +1,35 @@
+h1, h2, h3 {
+	font-family: Cooper Black Std, Cooper Black, Cooper Std, Arial Black, Sans-Serif;
+	color: #FF00FF;
+} 
+
+h1 {
+	font-size:  48pt;
+}
+
+h2 {
+	font-size: 36px;
+}
+
+p, ul { 
+	padding: 10px;
+	font-family: Helvetica, Arial Black, Sans-Serif;
+	font-weight: bold;
+	letter-spacing: -0.5px;
+	line-height: 1.5em;
+	max-width: 500px;
+	margin: 0px auto;
+}
+
+body {
+	background: #EEE;
+}
+
+#canvii, #decodeImg {
+	display: none;
+}
+
+#input_text, #output_text {
+	width: 500px;
+	min-height: 150px;
+}

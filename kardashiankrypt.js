@@ -7,7 +7,7 @@
 
 // ~*~* ENCODE *~*~
 
-var files = 8;
+var KIMMY = 10;
 
 function setPixel(imageData, x, y, r, g, b, a) {
     index = (x + y * imageData.width) * 4;
@@ -81,7 +81,7 @@ function toImage(msg) {
 
 function generateRaw() {
     var url     = "kim/",
-        num     = Math.floor(Math.random() * files);
+        num     = Math.floor(Math.random() * KIMMY);
         url     += num.toString() + ".png";
     return url;
 }

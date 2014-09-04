@@ -62,6 +62,7 @@ function encode() {
         base64png = btoa(pngFile);//Base64.encode(pngFile);
         dataUrl += base64png;
         document.getElementById('canvasImg').src = dataUrl;
+        document.getElementById('showStep').innerText = "3. SAVE IMAGE";
     }
 }
 

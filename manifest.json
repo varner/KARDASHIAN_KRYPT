@@ -2,7 +2,10 @@
   "manifest_version": 2,
   "name": "Kardashian Krypt",
   "version": "1.0",
-  "description": "HIDE MESSAGES IN PICTURES OF THE KARDASHIANS",
+  "icons": { "16": "16.png",
+           "48": "48.png",
+          "128": "128.png" },
+  "description": "HIDE MESSAGES IN PICTURES OF KIM KARDASHIAN",
   "permissions": [
     "tabs", "http://*/*", "https://*/*", "activeTab"
   ],
@@ -11,5 +14,9 @@
     "persistent": false
   },
   "browser_action": {
+    "default_icon": {                    // optional
+            "19": "16.png",  
+            "38": "48.png" 
+    }
   }
 }

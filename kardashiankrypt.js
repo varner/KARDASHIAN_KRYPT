@@ -1,4 +1,3 @@
-
 // KARDASHIANKRYPT.JS
 // a stupid as fuck chrome extension
 // by xX_mAdDy_VaRnEr_Xx
@@ -41,11 +40,11 @@ function codify(imageData, phrase) {
 }
 
 function encode() {
-    var plaintext   = escape(document.getElementById("input_text").value),
-        encoded     = toImage(msg),
-        rawUrl      = generateRaw(),
-        dataUrl     = 'data:image/png;base64,',
-        rawImg      = document.createElement("img");
+    var msg     = escape(document.getElementById("input_text").value),//.replace(/\n/g, " "),
+        encoded = toImage(msg),
+        rawUrl  = generateRaw(),
+        dataUrl = 'data:image/png;base64,',
+        rawImg  = document.createElement("img");
     rawImg.src = rawUrl;
     rawImg.onload = function() {
         var can         = document.createElement("canvas");
@@ -68,23 +67,16 @@ function encode() {
 }
 
 function toImage(msg) {
-    //aes encrypt
-    var ciphertext = msg;
-    /*var password = document.getElementById('pwd').value;
-    if (password != "") {
-        ciphertext = Aes.Ctr.encrypt(msg, password, 256);
-    } else { ciphertext = msg;}*/
     //convert to binary
     var prepped = "";
 	var padding = "00000000";
 	var temp;
-	for (i=0; i < ciphertext.length; i++) {
-		temp = ciphertext[i].charCodeAt(0).toString(2);
+	for (i=0; i < msg.length; i++) {
+		temp = msg[i].charCodeAt(0).toString(2);
  		prepped += padding.substring(0, padding.length - temp.length) + temp;
 
     }
     prepped += padding; //null character
-    alert(prepped);
     return prepped;
 }
 
@@ -195,6 +187,8 @@ function gotImg() {
 
 
 window.onload = function() {
+    //var ec = window.getElementById("enkrypt");
+    //ec.onClicked(function() { encode();});
     var eh = document.getElementById("enkrypt");
     eh.addEventListener("click", encode);
 

@@ -72,7 +72,6 @@ function toImage(msg) {
     var password = document.getElementById('pwd').value;
     if (password != "") {
         ciphertext = Aes.Ctr.encrypt(msg, password, 256);
-        alert(ciphertext);
     } else { ciphertext = escape(msg); }
     //convert to binary
     var prepped = "";

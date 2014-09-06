@@ -40,7 +40,7 @@ function codify(imageData, phrase) {
 }
 
 function encode() {
-    var msg     = escape(document.getElementById("input_text").value),//.replace(/\n/g, " "),
+    var msg     = document.getElementById("input_text").value,//.replace(/\n/g, " "),
         encoded = toImage(msg),
         rawUrl  = generateRaw(),
         dataUrl = 'data:image/png;base64,',
@@ -67,13 +67,20 @@ function encode() {
 }
 
 function toImage(msg) {
+    //aes
+    var ciphertext;
+    var password = document.getElementById('pwd').value;
+    if (password != "") {
+        ciphertext = Aes.Ctr.encrypt(msg, password, 256);
+        alert(ciphertext);
+    } else { ciphertext = escape(msg); }
     //convert to binary
     var prepped = "";
-	var padding = "00000000";
-	var temp;
-	for (i=0; i < msg.length; i++) {
-		temp = msg[i].charCodeAt(0).toString(2);
- 		prepped += padding.substring(0, padding.length - temp.length) + temp;
+    var padding = "00000000";
+    var temp;
+    for (i=0; i < ciphertext.length; i++) {
+        temp = ciphertext[i].charCodeAt(0).toString(2);
+        prepped += padding.substring(0, padding.length - temp.length) + temp;
 
     }
     prepped += padding; //null character
@@ -141,7 +148,14 @@ function decode() {
     imageData = c.getImageData(0, 0, can.width, can.height);
 
     var msg = algo(imageData);
-    document.getElementById("output_text").value = msg;
+    var password = document.getElementById("upwd").value;
+    var unenciphered;
+    if (password != "") {
+        unenciphered = Aes.Ctr.decrypt(msg, password, 256);
+    } else {
+        unenciphered = msg;
+    }
+    document.getElementById("output_text").value = unenciphered;
 }
 
 function algo(imageData) {

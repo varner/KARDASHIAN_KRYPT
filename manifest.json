@@ -1,16 +1,16 @@
 {
   "manifest_version": 2,
   "name": "Kardashian Krypt",
-  "version": "1.0",
+  "version": "0.99",
   "icons": { "16": "16.png",
            "48": "48.png",
           "128": "128.png" },
-  "description": "HIDE MESSAGES IN PICTURES OF KIM KARDASHIAN",
+  "description": "Covertly send messages to friends, family, paramours & more by hiding messages in pictures of Kim Kardashian!!!!!",
   "permissions": [
     "tabs", "http://*/*", "https://*/*", "activeTab"
   ],
   "background": {
-    "scripts": ["kardashiankrypt.js", "generatepng.js", "webtoolkit.base64.js"],
+    "scripts": ["kardashiankrypt.js", "generatepng.js", "webtoolkit.base64.js", "aes.js", "aes-ctr.js"],
     "persistent": false
   },
   "browser_action": {

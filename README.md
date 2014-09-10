@@ -8,3 +8,4 @@ wishlist
 --------
 - firefox version
 - more kim pix
+- pgp encryption method?
